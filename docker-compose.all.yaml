@@ -1,0 +1,33 @@
+version: "3"
+services:
+  postgresql:
+    image: "postgres:13.10-alpine"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=backend-assessment
+    ports:
+      - 5432:5432
+  backend-assessment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-assessment
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_HOST=postgresql
+      - DB_TYPE=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=backend-assessment
+      - DB_NAME=backend-assessment
+      - DB_SCHEMA=backend-assessment
+      - DB_LOGGING=true
+      - DB_MAX_POOL_SIZE=10
+      - DB_POOL_ACQUIRE_TIMEOUT=60000
+      - DB_POOL_IDLE_CONNECTION_TIME=300000000
+
+    expose:
+      - 3000
